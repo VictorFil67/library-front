@@ -41,3 +41,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  padding: 20px;
+}
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px;
+  gap: 15px;
+}
