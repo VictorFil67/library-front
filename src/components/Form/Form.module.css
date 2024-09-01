@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label:nth-child(4) {
+  margin-bottom: 15px;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 300px;
+  margin: 5px;
+  &:last-child {
+    margin-bottom: 10px;
+  }
+}
