@@ -68,6 +68,7 @@ function App() {
               setIsbn={setIsbn}
               setTitle={setTitle}
               setAuthor={setAuthor}
+              getBooksList={getBooksList}
             />
           ))}
       </ul>
