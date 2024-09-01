@@ -9,7 +9,10 @@ import { Modal } from "./components/Modal/Modal";
 
 function App() {
   const [books, setBooks] = useState([]);
-  const [modal, setmodal] = useState();
+  const [modal, setmodal] = useState("");
+  const [isbn, setIsbn] = useState("");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
 
   async function getBooksList() {
     try {
@@ -21,9 +24,15 @@ function App() {
     }
   }
 
-  function open() {
-    setmodal(true);
+  function open(e) {
+    // e.target.nodeName === 'A'
+
+    console.log(e.currentTarget.nodeName);
+    setmodal(e.currentTarget.nodeName);
   }
+  // function open() {
+  //   setmodal(true);
+  // }
   function close() {
     setmodal(false);
   }
@@ -43,7 +52,8 @@ function App() {
     <div className="App">
       <button onClick={getBooksList}>List of books</button>
       <button onClick={open}>Add book</button>
-      {console.log(books)}
+      {/* <button onClick={onClick}>Edit book data</button> */}
+      {/* {console.log(books)} */}
 
       <ul className="list">
         {books.length > 0 &&
@@ -54,6 +64,10 @@ function App() {
               title={book.title}
               author={book.author}
               isBorrowed={book.isBorrowed}
+              open={open}
+              setIsbn={setIsbn}
+              setTitle={setTitle}
+              setAuthor={setAuthor}
             />
           ))}
       </ul>
@@ -61,9 +75,17 @@ function App() {
         createPortal(
           <Modal
             close={close}
-            formTitle={"Adding a book"}
-            buttonName={"Add to library"}
+            formTitle={
+              modal === "BUTTON" ? "Adding a book" : "Editing book data"
+            }
+            buttonName={
+              modal === "BUTTON" ? "Add to library" : "Edit book data"
+            }
             getBooksList={getBooksList}
+            isbn={modal === "BUTTON" ? "" : isbn}
+            title={modal === "BUTTON" ? "" : title}
+            author={modal === "BUTTON" ? "" : author}
+            formType={modal}
           />,
           document.body
         )}

@@ -3,7 +3,16 @@ import s from "./Form.module.css";
 
 import { api } from "../../api/api";
 
-export const Form = ({ formTitle, buttonName, close, getBooksList }) => {
+export const Form = ({
+  formTitle,
+  buttonName,
+  close,
+  getBooksList,
+  isbn,
+  title,
+  author,
+  formType,
+}) => {
   const inputs = [
     {
       label: "ISBN",
@@ -22,9 +31,9 @@ export const Form = ({ formTitle, buttonName, close, getBooksList }) => {
     },
   ];
 
-  const [isbnValue, setIsbnValue] = useState("");
-  const [titleValue, setTitleValue] = useState("");
-  const [authorValue, setAuthorValue] = useState("");
+  const [isbnValue, setIsbnValue] = useState(isbn);
+  const [titleValue, setTitleValue] = useState(title);
+  const [authorValue, setAuthorValue] = useState(author);
 
   function handleChange(e) {
     if (e.target.name === "isbn") {
@@ -52,8 +61,25 @@ export const Form = ({ formTitle, buttonName, close, getBooksList }) => {
     }
   }
 
+  async function handleUpdateSubmit(e) {
+    e.preventDefault();
+
+    const book = { isbn: isbnValue, title: titleValue, author: authorValue };
+    try {
+      const { data } = await api.put(`/${isbn}`, book);
+      console.log(data);
+      close();
+      getBooksList();
+    } catch (error) {
+      return console.error(error);
+    }
+  }
+
   return (
-    <form className={s.form} onSubmit={handleSubmit}>
+    <form
+      className={s.form}
+      onSubmit={formType === "BUTTON" ? handleSubmit : handleUpdateSubmit}
+    >
       <h2>{formTitle}</h2>
       {inputs.map((el, idx) => (
         <label key={idx} className={s.label}>

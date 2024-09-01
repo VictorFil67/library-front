@@ -6,8 +6,11 @@ export const Modal = ({
   close,
   formTitle,
   buttonName,
-
   getBooksList,
+  isbn,
+  title,
+  author,
+  formType,
 }) => {
   function handleClick(e) {
     if (e.target === e.currentTarget) {
@@ -34,6 +37,10 @@ export const Modal = ({
           buttonName={buttonName}
           close={close}
           getBooksList={getBooksList}
+          isbn={isbn}
+          title={title}
+          author={author}
+          formType={formType}
         />
       </div>
     </div>
