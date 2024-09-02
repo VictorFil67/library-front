@@ -13,11 +13,15 @@ function App() {
   const [isbn, setIsbn] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  const [searchByIsbn, setSearchByIsbn] = useState("");
+  const [searchByTitle, setSearchByTitle] = useState("");
+  // const [book, setBook] = useState("");
 
   async function getBooksList() {
     try {
       const { data } = await api("/");
       console.log(data);
+
       setBooks(data);
     } catch (error) {
       return console.error(error);
@@ -48,12 +52,63 @@ function App() {
     };
   }, [modal]);
 
+  function handleChange(e) {
+    if (e.target.name === "isbn") {
+      setSearchByIsbn(e.target.value);
+    }
+    if (e.target.name === "title") {
+      setSearchByTitle(e.target.value);
+    }
+  }
+
+  async function searchBook({ isbn, title }) {
+    const query =
+      searchByIsbn && searchByTitle
+        ? { isbn: searchByIsbn, title: searchByTitle }
+        : searchByIsbn
+        ? { isbn: searchByIsbn }
+        : { title: searchByTitle };
+    try {
+      const { data } = await api("/search", {
+        params: query,
+      });
+      const book = [];
+      console.log(data);
+      book.push(data);
+      setBooks(book);
+      console.log(books);
+    } catch (error) {
+      setBooks([]);
+      if (error.response.data.message === "Not Found") {
+        console.error("Such the book does not exist");
+      } else if (error.message === "Request failed with status code 500") {
+        console.error("The library is empty");
+      } else {
+        console.error(error.message);
+      }
+      // console.error.response.data.message ?? console.error.message;
+    }
+  }
+
   return (
     <div className="App">
       <button onClick={getBooksList}>List of books</button>
       <button onClick={open}>Add book</button>
-      {/* <button onClick={onClick}>Edit book data</button> */}
-      {/* {console.log(books)} */}
+      <input
+        type="text"
+        name="isbn"
+        placeholder="ISBN"
+        value={searchByIsbn}
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="title"
+        placeholder="Title"
+        value={searchByTitle}
+        onChange={handleChange}
+      />
+      <button onClick={searchBook}>Search</button>
 
       <ul className="list">
         {books.length > 0 &&
