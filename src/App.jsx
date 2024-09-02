@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import axios from "axios";
 
 import "./App.css";
 import { api } from "./api/api";
@@ -15,12 +14,10 @@ function App() {
   const [author, setAuthor] = useState("");
   const [searchByIsbn, setSearchByIsbn] = useState("");
   const [searchByTitle, setSearchByTitle] = useState("");
-  // const [book, setBook] = useState("");
 
   async function getBooksList() {
     try {
       const { data } = await api("/");
-      console.log(data);
 
       setBooks(data);
     } catch (error) {
@@ -29,14 +26,9 @@ function App() {
   }
 
   function open(e) {
-    // e.target.nodeName === 'A'
-
-    console.log(e.currentTarget.nodeName);
     setmodal(e.currentTarget.nodeName);
   }
-  // function open() {
-  //   setmodal(true);
-  // }
+
   function close() {
     setmodal(false);
   }
@@ -73,10 +65,9 @@ function App() {
         params: query,
       });
       const book = [];
-      console.log(data);
+
       book.push(data);
       setBooks(book);
-      console.log(books);
     } catch (error) {
       setBooks([]);
       if (error.response.data.message === "Not Found") {
@@ -86,7 +77,6 @@ function App() {
       } else {
         console.error(error.message);
       }
-      // console.error.response.data.message ?? console.error.message;
     }
   }
 
@@ -100,6 +90,7 @@ function App() {
         placeholder="ISBN"
         value={searchByIsbn}
         onChange={handleChange}
+        className="search"
       />
       <input
         type="text"
@@ -107,6 +98,7 @@ function App() {
         placeholder="Title"
         value={searchByTitle}
         onChange={handleChange}
+        className="search"
       />
       <button onClick={searchBook}>Search</button>
 

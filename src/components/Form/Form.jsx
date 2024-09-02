@@ -52,8 +52,8 @@ export const Form = ({
 
     const book = { isbn: isbnValue, title: titleValue, author: authorValue };
     try {
-      const { data } = await api.post("/", book);
-      console.log(data);
+      await api.post("/", book);
+
       close();
       getBooksList();
     } catch (error) {
@@ -66,8 +66,8 @@ export const Form = ({
 
     const book = { isbn: isbnValue, title: titleValue, author: authorValue };
     try {
-      const { data } = await api.put(`/${isbn}`, book);
-      console.log(data);
+      await api.put(`/${isbn}`, book);
+
       close();
       getBooksList();
     } catch (error) {

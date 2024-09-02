@@ -17,12 +17,9 @@ export const Book = ({
 
   function handleclick(e) {
     if (e.target.nodeName === "BUTTON") {
-      console.log(e.currentTarget);
-      console.log(e.target);
       return;
     }
     if (e.target.nodeName !== "INPUT") {
-      console.log(e.target.nodeName);
       setState();
       open(e);
     }
@@ -35,8 +32,8 @@ export const Book = ({
 
   async function deleteBook(isbn) {
     try {
-      const { data } = await api.delete(`/${isbn}`);
-      console.log(data);
+      await api.delete(`/${isbn}`);
+
       getBooksList();
     } catch (error) {
       return console.error(error);
@@ -44,15 +41,14 @@ export const Book = ({
   }
 
   async function handleChange(e) {
-    console.log(check);
     setCheck(!check);
-    console.log(check);
+
     if (e.target.nodeName === "INPUT") {
       try {
-        const { data } = await api.patch(`/${isbn}/borrow`, {
+        await api.patch(`/${isbn}/borrow`, {
           isBorrowed: !check,
         });
-        console.log(data);
+
         getBooksList();
       } catch (error) {
         return console.error(error);
